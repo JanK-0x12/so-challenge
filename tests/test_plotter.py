@@ -25,12 +25,14 @@ class TestPlotter:
         # Call the function
         plot_data(self.sample_df)
 
-        # Check that plt.plot was called with correct data
-        mock_plt.plot.assert_called_once_with(
-            self.sample_df['year_month'],
-            self.sample_df['question_count'],
-            marker='o'
-        )
+        # Check that plt.plot was called
+        mock_plt.plot.assert_called_once()
+        call_args, call_kwargs = mock_plt.plot.call_args
+        expected_x = ['2008-01', '2008-02', '2009-01', '2009-02']
+        expected_y = [100, 150, 200, 250]
+        assert list(call_args[0]) == expected_x
+        assert list(call_args[1]) == expected_y
+        assert call_kwargs == {'marker': 'o'}
 
     @patch('so_challenge.plotter.plt')
     def test_plot_data_sets_correct_axis_labels(self, mock_plt):
@@ -81,6 +83,10 @@ class TestPlotter:
         plot_data(empty_df)
 
         # Should still call plot but with empty data
-        mock_plt.plot.assert_called_once_with([], [], marker='o')
+        mock_plt.plot.assert_called_once()
+        call_args, call_kwargs = mock_plt.plot.call_args
+        assert call_args[0] == []
+        assert call_args[1] == []
+        assert call_kwargs == {'marker': 'o'}
         mock_plt.title.assert_called_once_with('Stack Overflow Monthly Question Counts (2008-2024)')
         mock_plt.show.assert_called_once()
