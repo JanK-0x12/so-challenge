@@ -1,0 +1,23 @@
+[project]
+name = "so-challenge"
+version = "0.1.0"
+description = "A Python project for collecting and visualizing data related to Stack Overflow challenges."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib>=3.10.8",
+    "pandas>=3.0.1",
+    "requests>=2.33.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
